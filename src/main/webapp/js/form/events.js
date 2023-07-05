@@ -1,11 +1,26 @@
 // EVENTS
 
+// Resets
+
 const resetCategories = () => {
     total = null
     selected = null
     eventsAssignmentAll()
     totalTag.innerText = totalText
 }
+
+const resetForm = (e) => {
+
+    e.preventDefault()
+
+    for (let input of inputs)
+        input.value = ''
+
+    select.value = 'none'
+    resetCategories()
+}
+
+// Setters
 
 const setCategory = (e) => {
 
@@ -23,7 +38,6 @@ const setCategory = (e) => {
     selected = index
     changeColor(container, index)
     eventsAssignmentAll()
-
     totalPrice()
 }
 
@@ -41,23 +55,12 @@ const setTicket = (e) => {
     totalPrice()
 }
 
-// EVENTS: BUTTONS
 
-const reset = (e) => {
+// NUEVOS METODOS
+// Form
 
-    e.preventDefault()
 
-    for (let input of inputs)
-        input.value = ''
-
-    select.value = 'none'
-
-    resetCategories()
-}
-
-const submit = (e) => {
-
-    e.preventDefault()
+const verifyForm = (form) => {
 
     const { firstname, lastname, email, tickets, category } = form
 
@@ -70,14 +73,53 @@ const submit = (e) => {
     }
 
     const values = Object.values(verified)
-    const submitAccepted = values.every(value => value)
+    const accepted = values.every(value => value)
+
+    return accepted
+}
+
+
+
+const adapterForm = ({ firstname, lastname, email, tickets, category }) => {
+
+    const data = {
+        nombre: firstname.value,
+        apellido: lastname.value,
+        correo: email.value,
+        cantidad: tickets.value,
+        categoria: category.value
+    }
+
+    return data
+}
+
+
+
+const submitForm = async (form) => {
+
+    const data = adapterForm(form)
+
+    const config = {
+        method: 'POST',
+        body: JSON.stringify(data),
+    }
+
+    fetch('/api/tickets', config)
+}
+
+
+const submit = (e) => {
+
+    e.preventDefault()
+
+    const submitAccepted = verifyForm(form)
 
     submitAccepted
-        ? location.href = '/exito.html'
+        ? submitForm(form)
         : alert('Debes completar todos los campos correctamente')
-
-
 }
+
+
 
 // ASIGNACION DE EVENTOS
 

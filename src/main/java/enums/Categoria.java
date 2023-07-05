@@ -1,10 +1,15 @@
 package enums;
 
+import com.google.gson.annotations.SerializedName;
+
 
 public enum Categoria {
     
+    @SerializedName("1")
     A("Categoria A", 1),
+    @SerializedName("2")
     B("Categoria B", 2),
+    @SerializedName("3")
     C("Categoria C", 3);
     
     private String nombre;
@@ -22,6 +27,4 @@ public enum Categoria {
     public int getCodigo() {
         return codigo;
     }
-    
-    
 }

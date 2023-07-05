@@ -1,13 +1,31 @@
 package services;
 
+import com.google.gson.Gson;
 import daos.TicketsDaoMysql;
+import java.sql.SQLException;
+import java.util.List;
+import models.Result;
+import models.Ticket;
 
 public class TicketsService {
 
+    private final Gson GSON = new Gson();
     private final TicketsDaoMysql DAO = new TicketsDaoMysql();
     
-    public String getTickets(){
+    List tickets;
+    
+    public String getTickets() throws SQLException{
         
-        return "";
+        tickets = DAO.getTickets();
+        String result = GSON.toJson(tickets);        
+        return result;
+    }
+    
+    public String postTicket(String ticket) throws SQLException{
+        System.out.println("SERVI" + ticket);
+        Ticket newTicket = GSON.fromJson(ticket, Ticket.class);
+        boolean error = DAO.postTicket(newTicket);
+        Result result = new Result(error);
+        return GSON.toJson(result);
     }
 }

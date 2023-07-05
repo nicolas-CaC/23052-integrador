@@ -18,7 +18,7 @@ public class Conexion {
         try{
             Class.forName(DRIVER);
             conexion = DriverManager.getConnection(URL,USER,PASS);
-            System.out.println("Se cargo bien");
+//            System.out.println("Se cargo bien");
         }
         
         catch(ClassNotFoundException | SQLException e){
