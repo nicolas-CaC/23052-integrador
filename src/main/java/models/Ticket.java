@@ -7,9 +7,8 @@ public class Ticket {
     private int id, cantidad;
     private String nombre, apellido, correo;
     private Categoria categoria;
-
+    
     public Ticket(int id, String nombre, String apellido, String correo, int cantidad, String categoria) {
-        System.out.println("ESTEE");
         this.id = id;
         this.cantidad = cantidad;
         this.nombre = nombre;

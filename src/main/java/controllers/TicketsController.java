@@ -3,10 +3,10 @@ package controllers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import services.TicketsService;
 
 
-@WebServlet(name = "TicketsController", urlPatterns = {"/api/tickets"})
+@WebServlet(name = "TicketsController", urlPatterns = {"/api/tickets", "/api/tickets/*"})
 public class TicketsController extends HttpServlet {
 
     TicketsService ticketsService = new TicketsService();
@@ -52,6 +52,38 @@ public class TicketsController extends HttpServlet {
             System.out.println(ex.toString());
         }
     }
+
+    @Override
+    protected void doPut(
+            HttpServletRequest req, 
+            HttpServletResponse res) 
+            throws ServletException, IOException {
+        
+        try {
+            String body = bodyToString(req.getInputStream());
+            String result = ticketsService.modifyTicket(body);
+            enviar(res, result);
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+
+    @Override
+    protected void doDelete(
+            HttpServletRequest req, 
+            HttpServletResponse res) 
+            throws ServletException, IOException {
+
+        try {
+            String path = req.getPathInfo();
+            String result = ticketsService.deleteTicket(path);
+            enviar(res, result);        
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+    
+    
     
     
     
