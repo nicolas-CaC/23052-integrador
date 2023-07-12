@@ -36,7 +36,9 @@ public class TicketsService {
     }
     
     public String deleteTicket(String path) throws SQLException{
-        int id = Integer.parseInt(path.substring(1));
+        System.out.println(path);
+        String filter = path.contains("/") ? path.substring(1) : path;
+        int id = Integer.parseInt(filter);
         int error = DAO.deleteTicket(id);
         Result result = new Result(error == 0);
         return GSON.toJson(result);

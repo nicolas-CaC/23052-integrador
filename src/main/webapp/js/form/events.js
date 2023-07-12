@@ -31,6 +31,9 @@ const setCategory = (e) => {
         return
     }
 
+    console.log({ option })
+
+
     category = option
     const index = categories[category].value
     const container = cardsContainer[index]
